@@ -1,0 +1,14 @@
+.venv/
+__pycache__/
+*.pyc
+.env
+.env.*
+!.env.example
+knowledge/*
+!knowledge/persona.example.json
+!knowledge/persona.schema.json
+data/
+.venv-*/
+.coverage
+htmlcov/
+*.log

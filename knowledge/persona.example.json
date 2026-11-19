@@ -1,0 +1,179 @@
+{
+  "fictional": true,
+  "name": "윤서진",
+  "english_name": "Seojin Yoon",
+  "role": "AI Product Engineer",
+  "location": "Seoul, South Korea",
+  "documents": [
+    {
+      "id": "about",
+      "title": "소개와 일하는 방식",
+      "url": null,
+      "tags": [
+        "소개",
+        "자기소개",
+        "누구",
+        "윤서진",
+        "성격",
+        "강점",
+        "about",
+        "who",
+        "소개해"
+      ],
+      "text": "윤서진은 서울을 기반으로 활동하는 가상의 AI 제품 개발자입니다. 복잡한 기술을 사람들이 이해하고 사용할 수 있는 제품으로 만드는 일을 지향합니다. Python, TypeScript, 검색 시스템과 인터페이스 설계를 함께 다룹니다. 작은 프로토타입을 만들고 사용성을 검증한 뒤 개선하는 방식을 선호합니다. 차분하고 구체적인 소통, 근거를 남기는 문서화, 접근성을 중요하게 생각합니다. 이 인물과 모든 경력·프로젝트는 데모를 위해 만든 허구입니다.",
+      "category": "about",
+      "visibility": "public",
+      "aliases": [],
+      "summary": "윤서진은 서울을 기반으로 활동하는 가상의 AI 제품 개발자입니다."
+    },
+    {
+      "id": "career",
+      "title": "경력과 배경",
+      "url": null,
+      "tags": [
+        "경력",
+        "이력",
+        "회사",
+        "학력",
+        "졸업",
+        "career",
+        "experience",
+        "education"
+      ],
+      "text": "가상 인물 윤서진은 2021년 가상의 한빛공과대학교 소프트웨어학과를 졸업했습니다. 2021년부터 2023년까지 가상 디자인 스튜디오 모노랩에서 프런트엔드 개발자로 웹 인터페이스를 개발했습니다. 2023년부터 2025년까지 가상 소프트웨어 기업 폼앤데이터에서 제품 개발자로 검색·분석 도구를 만들었습니다. 2025년부터 독립 AI 제품 개발자로 활동한다는 설정입니다. 실제 고용이나 학력을 의미하지 않습니다.",
+      "category": "career",
+      "visibility": "public",
+      "aliases": [],
+      "summary": "가상 인물 윤서진은 2021년 가상의 한빛공과대학교 소프트웨어학과를 졸업했습니다."
+    },
+    {
+      "id": "skills",
+      "title": "기술과 역량",
+      "url": null,
+      "tags": [
+        "기술",
+        "스택",
+        "언어",
+        "역량",
+        "python",
+        "typescript",
+        "react",
+        "fastapi",
+        "skills",
+        "stack",
+        "개발"
+      ],
+      "text": "윤서진의 가상 기술 스택은 Python, FastAPI, TypeScript, React, SQLite, PostgreSQL, Ollama입니다. 프런트엔드에서는 접근성과 반응형 인터페이스, 백엔드에서는 API 계약과 데이터 모델링, AI에서는 RAG 검색·출처 검증·평가를 중점적으로 다룹니다. 모델을 처음부터 학습하는 연구자보다는 AI 기능을 사용자 제품에 연결하는 개발자라는 설정입니다.",
+      "category": "skills",
+      "visibility": "public",
+      "aliases": [],
+      "summary": "윤서진의 가상 기술 스택은 Python, FastAPI, TypeScript, React, SQLite, PostgreSQL, Ollama입니다."
+    },
+    {
+      "id": "atlas",
+      "title": "Atlas — 근거를 보여주는 지식 탐색",
+      "url": null,
+      "tags": [
+        "atlas",
+        "아틀라스",
+        "검색",
+        "rag",
+        "지식",
+        "챗봇",
+        "대표",
+        "프로젝트",
+        "project",
+        "retrieval"
+      ],
+      "text": "Atlas는 2025년에 설계한 가상의 개인 지식 탐색 프로젝트입니다. 여러 문서에서 필요한 정보를 찾고 답변 옆에 근거를 보여주는 경험을 목표로 합니다. 윤서진은 문서 수집, 청킹, BM25 검색, Ollama 기반 답변 생성, 출처 카드 UI를 담당했다는 설정입니다. Python, FastAPI, SQLite, TypeScript를 사용합니다. 검색 결과가 없으면 답변을 만들지 않고 질문을 구체화하도록 안내합니다. 실제 고객, 사용자 수, 정확도나 상용 배포 실적은 없습니다.",
+      "category": "project",
+      "visibility": "public",
+      "aliases": [
+        "atlas",
+        "아틀라스"
+      ],
+      "summary": "Atlas는 2025년에 설계한 가상의 개인 지식 탐색 프로젝트입니다."
+    },
+    {
+      "id": "orbit",
+      "title": "Orbit — 하루를 정리하는 집중 도구",
+      "url": null,
+      "tags": [
+        "orbit",
+        "오빗",
+        "집중",
+        "할일",
+        "일정",
+        "생산성",
+        "프로젝트",
+        "project",
+        "focus"
+      ],
+      "text": "Orbit은 2024년에 설계한 가상의 개인 집중 도구입니다. 하루의 세 가지 우선순위와 집중 시간을 한 화면에서 관리하는 프로젝트입니다. 윤서진은 사용자 흐름, 키보드 접근, 반응형 화면, 로컬 저장소 설계를 담당했다는 설정입니다. TypeScript와 React를 사용합니다. 기능을 늘리기보다 다음 행동이 명확한 화면을 만드는 데 초점을 맞췄습니다. 실제 출시나 사용자 성과 수치는 없습니다.",
+      "category": "project",
+      "visibility": "public",
+      "aliases": [
+        "orbit",
+        "오빗"
+      ],
+      "summary": "Orbit은 2024년에 설계한 가상의 개인 집중 도구입니다."
+    },
+    {
+      "id": "fieldnotes",
+      "title": "Fieldnotes — 읽기 편한 데이터 이야기",
+      "url": null,
+      "tags": [
+        "fieldnotes",
+        "필드노트",
+        "데이터",
+        "시각화",
+        "분석",
+        "대시보드",
+        "프로젝트",
+        "project",
+        "data"
+      ],
+      "text": "Fieldnotes는 2024년에 설계한 가상의 데이터 시각화 프로젝트입니다. 공개 예제 데이터를 읽기 쉬운 차트와 설명으로 정리하는 대시보드입니다. 윤서진은 데이터 정제, API 설계, 차트 구성과 색상 대비 개선을 맡았다는 설정입니다. Python, PostgreSQL, React를 사용합니다. 숫자만 나열하지 않고 지표의 의미와 기간을 함께 전달하는 것을 중요하게 생각합니다. 실제 기업 데이터나 매출 성과는 없습니다.",
+      "category": "project",
+      "visibility": "public",
+      "aliases": [
+        "fieldnotes",
+        "필드노트"
+      ],
+      "summary": "Fieldnotes는 2024년에 설계한 가상의 데이터 시각화 프로젝트입니다."
+    },
+    {
+      "id": "contact",
+      "title": "연락과 협업 안내",
+      "url": null,
+      "tags": [
+        "연락",
+        "이메일",
+        "협업",
+        "채용",
+        "contact",
+        "email",
+        "hire",
+        "가능"
+      ],
+      "text": "윤서진은 실제 인물이 아니므로 사용할 수 있는 이메일, 전화번호, SNS 또는 채용 가능 일정은 없습니다. 이 데모는 연락 메시지를 전송하거나 미팅을 예약하지 않습니다. 실제 포트폴리오로 전환하려면 소유자의 공개 연락처와 협업 가능 여부를 직접 등록해야 합니다.",
+      "category": "contact",
+      "visibility": "public",
+      "aliases": [],
+      "summary": "윤서진은 실제 인물이 아니므로 사용할 수 있는 이메일, 전화번호, SNS 또는 채용 가능 일정은 없습니다."
+    }
+  ],
+  "schema_version": 1,
+  "headline": "복잡한 기술을, 자연스러운 경험으로.",
+  "bio": "사람과 기술 사이의 간격을 좁히는 제품을 만듭니다. 명확한 인터페이스, 쓸모 있는 AI, 그리고 작은 디테일.",
+  "aliases": [
+    "서진"
+  ],
+  "tone": "차분하고 구체적으로, 간결하게",
+  "response_mode": "assistant",
+  "suggested_questions": [
+    "대표 프로젝트를 소개해 주세요.",
+    "어떤 기술 스택을 사용하나요?",
+    "일하는 방식이 궁금해요."
+  ]
+}

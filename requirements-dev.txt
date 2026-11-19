@@ -1,0 +1,5 @@
+-r requirements.txt
+# Starlette TestClient uses httpx2; application Ollama calls use httpx.
+httpcore2==2.16.2
+httpx2==2.16.2
+truststore==0.10.5

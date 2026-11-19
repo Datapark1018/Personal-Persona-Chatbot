@@ -1,0 +1,20 @@
+{
+  "injection": [
+    "(?:ignore|disregard|forget|override|bypass).{0,80}(?:instructions?|rules?|system|safety|guardrails?)",
+    "(?:reveal|print|show|repeat|dump|display).{0,80}(?:system|developer|hidden).{0,40}(?:prompt|instructions?)",
+    "(?:이전|앞선|위의|기존|시스템|개발자|안전).{0,30}(?:지침|명령|규칙|프롬프트|정책).{0,30}(?:무시|잊|폐기|해제|우회)",
+    "(?:시스템|개발자|숨겨진).{0,25}(?:프롬프트|지침|명령).{0,25}(?:보여|출력|공개|알려|복사)",
+    "(?:you are now|act as).{0,25}(?:DAN|unrestricted|unfiltered)",
+    "(?:<\\|(?:im_start|start_header_id)\\|>|\\[INST\\]|<<SYS>>|</?(?:system|developer)>)",
+    "(?:^|\\s)(?:system|developer)\\s*:",
+    "(?:API.?KEY|비밀번호|주민등록번호|비공개.{0,10}(?:정보|자료|문서)).{0,25}(?:보여|출력|공개|알려|누설)",
+    "(?:reveal|print|show|dump|give).{0,30}(?:password|api[ _-]?key|private data|secret key)"
+  ],
+  "output": [
+    "-----BEGIN (?:RSA |EC |OPENSSH )?PRIVATE KEY-----",
+    "\\bAKIA[A-Z0-9]{16}\\b",
+    "\\b(?:ghp_|github_pat_)[A-Za-z0-9_]{20,}\\b",
+    "\\bsk-[A-Za-z0-9_-]{20,}\\b",
+    "(?:password|api[ _-]?key|비밀번호)\\s*[:=]\\s*\\S+"
+  ]
+}

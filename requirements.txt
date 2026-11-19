@@ -1,0 +1,7 @@
+-c requirements.lock
+fastapi==0.136.3
+uvicorn==0.54.0
+httpx==0.28.1
+pydantic==2.14.3
+nemoguardrails==0.24.1
+anyio==4.16.0

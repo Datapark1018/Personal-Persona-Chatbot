@@ -1,0 +1,203 @@
+{
+  "$defs": {
+    "Document": {
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "pattern": "^[a-z][a-z0-9-]{0,63}$",
+          "title": "Id",
+          "type": "string"
+        },
+        "title": {
+          "maxLength": 120,
+          "minLength": 1,
+          "title": "Title",
+          "type": "string"
+        },
+        "category": {
+          "enum": [
+            "about",
+            "career",
+            "skills",
+            "project",
+            "contact",
+            "other"
+          ],
+          "title": "Category",
+          "type": "string"
+        },
+        "visibility": {
+          "enum": [
+            "public",
+            "private"
+          ],
+          "title": "Visibility",
+          "type": "string"
+        },
+        "summary": {
+          "maxLength": 300,
+          "minLength": 1,
+          "title": "Summary",
+          "type": "string"
+        },
+        "text": {
+          "maxLength": 2000,
+          "minLength": 1,
+          "title": "Text",
+          "type": "string"
+        },
+        "tags": {
+          "items": {
+            "maxLength": 60,
+            "minLength": 1,
+            "type": "string"
+          },
+          "maxItems": 20,
+          "title": "Tags",
+          "type": "array"
+        },
+        "aliases": {
+          "items": {
+            "maxLength": 60,
+            "minLength": 1,
+            "type": "string"
+          },
+          "maxItems": 10,
+          "title": "Aliases",
+          "type": "array"
+        },
+        "url": {
+          "anyOf": [
+            {
+              "maxLength": 2048,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Url"
+        }
+      },
+      "required": [
+        "id",
+        "title",
+        "category",
+        "visibility",
+        "summary",
+        "text"
+      ],
+      "title": "Document",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "const": 1,
+      "default": 1,
+      "title": "Schema Version",
+      "type": "integer"
+    },
+    "fictional": {
+      "title": "Fictional",
+      "type": "boolean"
+    },
+    "name": {
+      "maxLength": 120,
+      "minLength": 1,
+      "title": "Name",
+      "type": "string"
+    },
+    "english_name": {
+      "maxLength": 120,
+      "minLength": 1,
+      "title": "English Name",
+      "type": "string"
+    },
+    "role": {
+      "maxLength": 120,
+      "minLength": 1,
+      "title": "Role",
+      "type": "string"
+    },
+    "location": {
+      "maxLength": 120,
+      "minLength": 1,
+      "title": "Location",
+      "type": "string"
+    },
+    "headline": {
+      "maxLength": 150,
+      "minLength": 1,
+      "title": "Headline",
+      "type": "string"
+    },
+    "bio": {
+      "maxLength": 400,
+      "minLength": 1,
+      "title": "Bio",
+      "type": "string"
+    },
+    "aliases": {
+      "items": {
+        "maxLength": 60,
+        "minLength": 1,
+        "type": "string"
+      },
+      "maxItems": 10,
+      "title": "Aliases",
+      "type": "array"
+    },
+    "tone": {
+      "default": "차분하고 구체적으로, 간결하게",
+      "maxLength": 200,
+      "minLength": 1,
+      "title": "Tone",
+      "type": "string"
+    },
+    "response_mode": {
+      "default": "assistant",
+      "enum": [
+        "assistant",
+        "persona"
+      ],
+      "title": "Response Mode",
+      "type": "string"
+    },
+    "suggested_questions": {
+      "items": {
+        "maxLength": 120,
+        "minLength": 1,
+        "type": "string"
+      },
+      "maxItems": 5,
+      "minItems": 1,
+      "title": "Suggested Questions",
+      "type": "array"
+    },
+    "documents": {
+      "items": {
+        "$ref": "#/$defs/Document"
+      },
+      "maxItems": 50,
+      "minItems": 1,
+      "title": "Documents",
+      "type": "array"
+    }
+  },
+  "required": [
+    "fictional",
+    "name",
+    "english_name",
+    "role",
+    "location",
+    "headline",
+    "bio",
+    "suggested_questions",
+    "documents"
+  ],
+  "title": "Persona",
+  "type": "object"
+}
