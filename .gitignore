@@ -12,3 +12,5 @@ data/
 .coverage
 htmlcov/
 *.log
+.gitignore
+web-design.md

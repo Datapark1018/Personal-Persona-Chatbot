@@ -158,7 +158,7 @@
       "type": "string"
     },
     "response_mode": {
-      "default": "assistant",
+      "default": "persona",
       "enum": [
         "assistant",
         "persona"

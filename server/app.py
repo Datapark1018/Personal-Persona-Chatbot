@@ -2,6 +2,7 @@ import asyncio
 import hashlib
 import json
 import logging
+import mimetypes
 import secrets
 import time
 import unicodedata
@@ -191,7 +192,7 @@ def create_app(settings: Settings | None = None):
         try:
             guards.check_patterns(query, "input")
             if engine.classify(query) == "greeting":
-                return f"안녕하세요! {owner.name}의 AI 포트폴리오 안내자예요. 프로젝트와 일하는 방식에 대해 물어보세요.", [], "static", None
+                return engine.greeting(owner), [], "static", None
             try:
                 await asyncio.wait_for(inference_lock.acquire(), timeout=5)
             except TimeoutError:
@@ -313,6 +314,8 @@ def create_app(settings: Settings | None = None):
         return BufferedResponse(stream(), media_type="text/event-stream", headers={"X-Accel-Buffering": "no"})
 
 
+    # Windows MIME registries do not always include web fonts.
+    mimetypes.add_type("font/woff2", ".woff2")
     app.mount("/assets", StaticFiles(directory=ROOT / "web"), name="assets")
 
 

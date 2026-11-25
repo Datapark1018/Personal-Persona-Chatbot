@@ -1,0 +1,57 @@
+@import "tailwindcss" source(none);
+@source "./index.html";
+@source "./app.js";
+
+@theme {
+  --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", "Malgun Gothic", sans-serif;
+  --color-canvas: #f3f4f0;
+  --color-pine: #285748;
+  --color-pine-light: #d6e7dd;
+  --color-mist: #edf3ef;
+}
+@layer base {
+  [hidden] { display: none !important; }
+  html { scroll-behavior: smooth; scroll-padding-top: 1.5rem; }
+  body { @apply font-sans text-base; }
+  button { @apply cursor-pointer disabled:cursor-not-allowed disabled:opacity-50; }
+  :where(button, a, textarea):focus-visible { outline: 2px solid #285748; outline-offset: 4px; }
+  ::selection { background: #d6e7dd; color: #17392e; }
+  :where(h1, h2, h3, p, a, button) { overflow-wrap: anywhere; }
+}
+@layer components {
+  .nav-link { @apply inline-flex min-h-11 items-center gap-2 text-zinc-600 hover:text-pine; }
+  .nav-chat { @apply inline-flex min-h-11 items-center gap-2 rounded-md bg-pine px-4 text-white hover:bg-pine/90; }
+  .profile-initials { @apply grid size-14 place-items-center rounded-lg border border-pine/20 bg-mist text-xl font-semibold tracking-tight text-pine; }
+  .profile-intro { @apply mt-5 inline-flex min-h-11 items-center gap-2 text-sm font-medium text-pine underline decoration-pine/30 underline-offset-4 hover:decoration-pine; }
+  .chat-shell { box-shadow: 0 4px 8px #182d2310, 0 20px 56px -24px #182d2338; }
+  .chat-initials { @apply size-11 shrink-0 place-items-center rounded-full border border-white/25 bg-white/10 text-sm font-semibold; }
+  .reset-button { @apply inline-flex min-h-11 shrink-0 items-center gap-2 rounded-md border border-white/25 px-3 text-sm text-white hover:bg-white/10; }
+  .reset-button:focus-visible { outline-color: white; }
+  .send-button { @apply inline-flex min-h-11 items-center justify-center gap-3 rounded-md bg-pine px-5 text-sm font-medium text-white hover:bg-pine/90; }
+  .stop-button { @apply inline-flex min-h-11 items-center justify-center gap-3 rounded-md border border-zinc-300 px-5 text-sm font-medium hover:bg-canvas; }
+  .project { @apply scroll-mt-6 py-5; }
+  .project h3 { @apply flex items-baseline gap-2.5 text-base leading-6 font-semibold; }
+  .project h3 i { @apply shrink-0 text-sm text-pine; }
+  .project p { @apply mt-2 text-sm leading-6 text-zinc-600; }
+  .project-actions { @apply mt-2 flex flex-wrap items-center gap-x-5 gap-y-1 text-xs; }
+  .project-actions :where(button, a) { @apply inline-flex min-h-11 items-center gap-2 text-left text-pine underline decoration-pine/30 underline-offset-4 hover:decoration-pine; }
+  .tags { @apply mt-3 flex flex-wrap gap-x-3 gap-y-1 text-xs leading-5 text-zinc-500; }
+  .welcome { @apply mx-auto max-w-xl pt-4 pb-4 sm:pt-9; }
+  .welcome h3 { @apply text-2xl leading-snug font-semibold tracking-tight text-balance; }
+  .welcome p { @apply mt-3 text-sm leading-7 text-zinc-600 sm:text-base; }
+  .suggestions { @apply mt-7 flex flex-col border-t border-zinc-100; }
+  .suggestions button { @apply flex min-h-14 items-center gap-3 border-b border-zinc-100 px-2 py-3 text-left text-sm leading-6 text-zinc-700 hover:bg-mist hover:text-pine; }
+  .suggestions button i { @apply shrink-0 text-pine; }
+  .suggestions .question-arrow { @apply ml-auto pl-2 text-xs text-zinc-400; }
+  .message { @apply mb-7 max-w-[90%] whitespace-pre-wrap text-base leading-7 wrap-anywhere; }
+  .message.user { @apply ml-auto w-fit rounded-lg rounded-tr-sm bg-mist px-4 py-3; }
+  .message.assistant-message { @apply mr-auto; }
+  .message-label { @apply mb-2 block text-xs font-medium text-pine; }
+  .source-list { @apply mt-4 flex flex-col items-start gap-2 whitespace-normal text-sm leading-6; }
+  .source-list a { @apply inline-flex items-baseline gap-2 text-pine underline decoration-pine/30 underline-offset-4 hover:decoration-pine; }
+  .source-list i { @apply shrink-0 text-xs; }
+}
+.messages { scrollbar-width: thin; scrollbar-color: #bbc9c1 transparent; }
+#headline, #bio { white-space: pre-line; }
+@media (max-height: 700px) { #main { position: static; } }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }

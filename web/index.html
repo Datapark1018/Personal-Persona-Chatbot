@@ -3,37 +3,67 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
-  <meta name="description" content="공개 프로필을 바탕으로 답하는 개인 AI 포트폴리오">
+  <meta name="description" content="프로젝트와 경험에 대해 직접 대화하는 개인 AI persona">
   <title>Personal Persona Chatbot</title>
-  <link rel="stylesheet" href="./assets/style.css">
-  <script src="./assets/app.js?v=guardrails-1" defer></script>
+  <link rel="stylesheet" href="/assets/style.css?v=persona-fa-1">
+  <link rel="stylesheet" href="/assets/vendor/fontawesome/css/fontawesome.min.css">
+  <link rel="stylesheet" href="/assets/vendor/fontawesome/css/solid.min.css">
+  <link rel="stylesheet" href="/assets/vendor/fontawesome/css/regular.min.css">
+  <script src="/assets/app.js?v=persona-fa-1" defer></script>
 </head>
-<body>
-<header class="topbar">
-  <a class="wordmark" href="#" id="brand">AI<span>●</span></a>
-  <nav aria-label="주 메뉴"><a href="#work">Work</a><a href="#about">About</a><button id="open-chat">Ask me ↗</button></nav>
-  <span class="demo" id="demo-label">AI PORTFOLIO</span>
+<body class="bg-canvas text-zinc-900 antialiased">
+<a class="sr-only focus:not-sr-only focus:fixed focus:top-2 focus:left-2 focus:z-50 focus:bg-white focus:p-4" href="#main">대화로 건너뛰기</a>
+<header class="mx-auto flex max-w-7xl flex-wrap items-center justify-between gap-4 px-5 py-6 lg:px-10">
+  <a href="#about" id="brand" class="text-xl font-semibold tracking-tight text-pine">포트폴리오</a>
+  <nav class="flex items-center gap-5 text-sm sm:gap-7" aria-label="주 메뉴">
+    <a href="#work" class="nav-link"><i class="fa-regular fa-folder-open" aria-hidden="true"></i><span>프로젝트</span></a>
+    <a href="#profile-details" class="nav-link"><i class="fa-regular fa-user" aria-hidden="true"></i><span>소개</span></a>
+    <button id="open-chat" type="button" class="nav-chat"><i class="fa-regular fa-comment-dots" aria-hidden="true"></i><span>대화하기</span></button>
+  </nav>
 </header>
-<div class="layout"><main>
-  <section class="hero" id="about">
-    <div class="eyebrow" id="profile-location">PERSONAL PORTFOLIO</div>
-    <h1 id="headline">프로필을 불러오는 중입니다.</h1>
-    <p class="intro" id="bio"></p>
-    <div class="hero-actions"><a class="primary" href="#work">프로젝트 살펴보기 ↘</a><button class="text-button" id="intro-question">AI에게 소개 듣기 ↗</button></div>
-    <div class="hero-foot"><span id="profile-role"></span><span>↓ SCROLL TO EXPLORE</span></div>
-  </section>
-  <section id="work" class="work"><div class="section-head"><h2>Selected work<span id="project-count"></span></h2><p>질문으로 더 알아보는 프로젝트</p></div><div id="projects"></div></section>
-  <section class="about-details"><div class="section-head"><h2>A little about me</h2><span class="project-type">PUBLIC PROFILE</span></div><div id="profile-sections"></div></section>
-  <footer><h2>궁금한 이야기가 있나요?</h2><p id="disclosure">AI가 공개 프로필 자료를 바탕으로 안내합니다.</p><div><span id="footer-name"></span><span>PERSONAL PERSONA CHATBOT</span></div></footer>
-</main>
-<aside class="assistant" id="assistant" aria-label="포트폴리오 AI 안내">
-  <div class="assistant-heading"><div class="avatar">AI<span>✳</span></div><div><h2 id="assistant-name">Portfolio assistant</h2><span><i class="dot"></i> AI 포트폴리오 안내</span></div><button id="reset" title="새 대화" aria-label="새 대화">↻</button></div>
-  <div class="assistant-notice" id="assistant-notice">공개 자료를 바탕으로 답해요.</div>
-  <div class="messages" id="messages" role="log" aria-live="polite" aria-relevant="additions"></div>
-  <div class="composer-area"><p id="status" role="status">프로필을 불러오는 중입니다.</p>
-    <form id="chat-form"><label class="sr-only" for="question">포트폴리오 질문</label><textarea id="question" rows="2" maxlength="1000" placeholder="궁금한 내용을 물어보세요…" disabled></textarea><div class="composer-bottom"><span><b>✳</b> AI ASSISTANT</span><button id="send" type="submit" aria-label="질문 보내기" disabled>↑</button><button id="stop" type="button" hidden>중지</button></div></form>
-    <div class="composer-caption">AI 답변은 부정확할 수 있어요. 출처를 함께 확인하세요.</div><button id="retry" class="text-button" hidden>다시 시도하기 ↗</button>
-  </div>
-</aside></div>
-<noscript>이 포트폴리오와 채팅을 이용하려면 JavaScript를 활성화해 주세요.</noscript>
-</body></html>
+<div class="mx-auto grid max-w-7xl items-start gap-8 px-5 pb-10 lg:grid-cols-[280px_minmax(0,1fr)] lg:gap-12 lg:px-10">
+  <aside id="about" class="order-last min-w-0 lg:order-first" aria-label="프로필과 프로젝트">
+    <section class="pt-3 pb-8">
+      <div id="profile-initials" class="profile-initials" aria-hidden="true"></div>
+      <h1 id="headline" class="mt-5 text-2xl leading-snug font-semibold tracking-tight text-balance">프로필을 불러오는 중입니다.</h1>
+      <p id="bio" class="mt-5 leading-7 text-zinc-700"></p>
+      <div class="mt-6 space-y-3 text-sm text-zinc-600"><p class="flex items-center gap-3"><i class="fa-solid fa-code w-4 text-pine" aria-hidden="true"></i><span id="profile-role"></span></p><p class="flex items-center gap-3"><i class="fa-solid fa-location-dot w-4 text-pine" aria-hidden="true"></i><span id="profile-location"></span></p></div>
+      <button id="intro-question" type="button" class="profile-intro" disabled><i class="fa-regular fa-comment" aria-hidden="true"></i><span>자기소개 듣기</span></button>
+    </section>
+    <section id="work" class="border-t border-zinc-200 pt-6" aria-labelledby="work-heading">
+      <div class="flex items-baseline justify-between gap-3"><h2 id="work-heading" class="font-semibold text-pine">프로젝트</h2><span id="project-count" class="text-sm text-zinc-500"></span></div>
+      <div id="projects" class="divide-y divide-zinc-200"></div>
+    </section>
+    <section id="profile-details" class="mt-8 border-t border-zinc-200 pt-6" aria-labelledby="profile-heading">
+      <h2 id="profile-heading" class="font-semibold text-pine">경험과 배경</h2>
+      <div id="profile-sections" class="divide-y divide-zinc-200"></div>
+    </section>
+  </aside>
+  <main id="main" tabindex="-1" class="min-w-0 lg:sticky lg:top-6">
+    <section id="assistant" class="chat-shell flex h-[min(840px,calc(100svh-110px))] min-h-[600px] flex-col overflow-hidden rounded-xl bg-white" aria-labelledby="assistant-name">
+      <header class="flex items-start justify-between gap-4 bg-pine px-5 py-5 text-white sm:px-8">
+        <div id="chat-initials" class="chat-initials hidden sm:grid" aria-hidden="true"></div>
+        <div class="min-w-0 flex-1"><h2 id="assistant-name" class="text-xl font-semibold tracking-tight">대화</h2><p id="assistant-notice" class="mt-1 text-sm leading-6 text-pine-light">공개 자료를 바탕으로 답하는 AI persona입니다.</p></div>
+        <button id="reset" type="button" class="reset-button" disabled><i class="fa-solid fa-plus" aria-hidden="true"></i><span>새 대화</span></button>
+      </header>
+      <div id="messages" class="messages min-h-0 flex-1 overflow-y-auto overscroll-contain px-5 py-6 sm:px-8" role="log" aria-label="대화 내용" aria-live="polite" aria-relevant="additions"></div>
+      <div class="border-t border-zinc-100 bg-white px-5 pt-3 pb-5 sm:px-8">
+        <p id="status" class="mb-3 min-h-5 text-sm text-zinc-600" role="status">프로필을 불러오는 중입니다.</p>
+        <form id="chat-form">
+          <label for="question" class="sr-only">메시지</label>
+          <textarea id="question" rows="2" maxlength="1000" placeholder="궁금한 이야기를 남겨 주세요." aria-describedby="composer-help" class="block max-h-40 min-h-24 w-full resize-y rounded-lg border border-zinc-200 bg-canvas p-4 text-base leading-7 placeholder:text-zinc-500 focus:border-pine focus:bg-white" disabled></textarea>
+          <div class="mt-3 flex items-center justify-between gap-3"><span id="composer-help" class="text-xs leading-5 text-zinc-500">Enter로 전송<br class="sm:hidden"> · Shift+Enter로 줄바꿈</span><div><button id="send" type="submit" class="send-button" disabled><span>보내기</span><i class="fa-solid fa-paper-plane" aria-hidden="true"></i></button><button id="stop" type="button" class="stop-button" hidden><i class="fa-solid fa-stop" aria-hidden="true"></i><span>중지</span></button></div></div>
+        </form>
+        <button id="retry" type="button" class="mt-2 inline-flex min-h-11 items-center gap-2 text-sm text-pine underline underline-offset-4" hidden><i class="fa-solid fa-rotate-right" aria-hidden="true"></i><span>다시 시도하기</span></button>
+      </div>
+    </section>
+    <p class="mt-3 text-xs leading-5 text-zinc-600">AI가 작성한 답변입니다. 정확한 내용은 답변의 출처를 함께 확인해 주세요.</p>
+  </main>
+</div>
+<footer class="mx-auto max-w-7xl border-t border-zinc-300 px-5 py-6 text-xs leading-6 text-zinc-600 lg:px-10">
+  <p id="disclosure">이 대화는 AI persona와 진행됩니다.</p>
+  <div class="mt-2 flex flex-wrap justify-between gap-2"><span id="footer-name"></span><span id="demo-label"></span></div>
+</footer>
+<noscript>프로필과 대화를 불러오려면 JavaScript를 활성화해 주세요.</noscript>
+</body>
+</html>

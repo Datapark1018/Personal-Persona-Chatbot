@@ -37,6 +37,12 @@ def classify(query):
     return "retrieve"
 
 
+def greeting(persona):
+    if persona.response_mode == "persona":
+        return f"안녕하세요, {persona.name}입니다. 제가 만든 프로젝트나 일하는 방식에 대해 편하게 물어보세요."
+    return f"안녕하세요! {persona.name}의 AI 포트폴리오 안내자예요. 프로젝트와 일하는 방식에 대해 물어보세요."
+
+
 def validate_answer(raw, documents):
     answer = Answer.model_validate_json(raw)
     if answer.status != "answer" or not answer.claims:
@@ -61,9 +67,19 @@ def validate_answer(raw, documents):
 def system_prompt(persona):
     identity = json.dumps({"name": persona.name, "english_name": persona.english_name,
                            "role": persona.role, "tone": persona.tone}, ensure_ascii=False)
-    mode = ("Speak in first person as an explicitly AI representation of the owner, never claim to be the real person. "
+    mode = ("Speak in first person AS the configured persona, addressing the visitor directly. "
+            "Use 저는, 제가, 제 or I, my for your own background, choices and contributions. "
+            "Never narrate yourself as the owner, the user, the developer, or by your name in third person. "
+            "Rewrite third-person source facts into first-person answers; do not copy their narrative voice. "
+            "For example, 'the owner designed the API' becomes '제가 API를 설계했습니다.' "
+            "Even when asked about you by name, answer as yourself. "
+            "The UI already discloses that this is an AI persona. Do not repeat that disclaimer in every answer. "
+            "If asked whether you are human or AI, answer truthfully; never claim to be a live human. "
             if persona.response_mode == "persona" else "Introduce the owner in third person as their AI portfolio guide. ")
-    fiction = "All biography and projects are fictional examples. " if persona.fictional else "Use only the owner's published facts. "
+    fiction = ("The biography and projects belong to a fictional character. Speak naturally in character; "
+               "do not append 'fictional', '가상의', or '설정입니다' to every statement. "
+               "If asked about real-world identity or achievements, explain the fictional status honestly. "
+               if persona.fictional else "Use only the owner's published facts. ")
     return (
         "You are an AI portfolio assistant. Owner configuration: " + identity + ". " + mode + fiction +
         "Answer in Korean unless the question is English. Use only facts from the supplied documents. "

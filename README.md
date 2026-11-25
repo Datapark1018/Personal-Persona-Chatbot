@@ -73,11 +73,13 @@ if (!(Test-Path knowledge/persona.local.json)) {
 | `name`, `english_name`, `role`, `location` | 이름, 역할, 지역 등 프로필 표시 |
 | `headline`, `bio` | 첫 화면의 제목과 소개 |
 | `tone` | 답변 말투 |
-| `response_mode` | `assistant`: 소유자를 소개하는 안내자 / `persona`: 소유자 관점의 1인칭 AI |
+| `response_mode` | 기본 `persona`: 소유자 관점의 1인칭 AI / `assistant`: 소유자를 소개하는 안내자 |
 | `suggested_questions` | 첫 화면에 표시할 질문 1~5개 |
 | `documents` | 답변의 근거가 되는 문서 1~50개 |
 
 두 답변 모드 모두 화면에 AI임을 표시합니다. 화면에만 적은 소개도 답변의 근거로 쓰려면 `documents`에 넣어야 합니다.
+
+기본 예제는 윤서진의 입장에서 “저는…”, “제가 담당했습니다”처럼 답합니다. 기존 개인 파일에 `"response_mode": "assistant"`가 있으면 `"persona"`로 바꾸고 서버를 재시작하세요. 새 대화를 시작하면 이전 안내자 말투의 이력도 지워집니다. 허구 여부는 `fictional`과 화면 표시로 구분합니다.
 
 문서 하나의 예시는 다음과 같습니다. `documents` 배열 안에 넣습니다.
 
@@ -216,13 +218,15 @@ export PERSONA_PATH="knowledge/persona.local.json"
 
 추가로 `tests/smoke_guardrails.py`는 공격·정상 입력 21개를 실제 모델로 검사하고, `tests/smoke_conversation.py`는 ASGI 테스트 클라이언트로 4턴 대화를 확인합니다. macOS/Linux에서는 위 명령의 Python 경로를 `.venv/bin/python`으로 바꾸면 됩니다.
 
-2026-11-25 Windows/Python 3.13에서 회귀 테스트 **46개**와 실제 HTTP 검사를 통과했습니다. CI에는 Windows·Ubuntu·macOS와 Python 3.11·3.13 조합을 구성했습니다. 원격 CI 결과와 장시간 부하 성능은 별도로 확인해야 합니다.
+`python tests/smoke_persona.py`는 실제 Qwen으로 자기소개·프로젝트 역할·경력이 3인칭 소개로 돌아가지 않는지 확인합니다.
+
+2026-11-25 Windows/Python 3.13에서 회귀 테스트 **47개**와 실제 HTTP 검사를 통과했습니다. CI에는 Windows·Ubuntu·macOS와 Python 3.11·3.13 조합을 구성했습니다. 원격 CI 결과와 장시간 부하 성능은 별도로 확인해야 합니다.
 
 ## 저장소 구조
 
 ```text
 server/                 FastAPI, persona 검증, 검색, 대화 기억, 추론
-web/                    HTML·CSS·JavaScript, 별도 빌드 없음
+web/                    HTML·JavaScript·Tailwind 원본과 빌드된 CSS
 knowledge/
   persona.example.json  공개 예제
   persona.schema.json   설정 스키마
@@ -236,6 +240,16 @@ requirements.lock       런타임 간접 의존성 버전 고정
 requirements-dev.txt    테스트 의존성
 .env.example            환경 변수 예시
 ```
+
+### UI 스타일 수정
+
+`web/index.html`과 `web/app.js`의 Tailwind 클래스, `web/tailwind.css`를 수정합니다. [Tailwind standalone CLI v4.3.5](https://github.com/tailwindlabs/tailwindcss/releases/tag/v4.3.5)를 운영체제에 맞게 받아 다음처럼 빌드합니다.
+
+```powershell
+.venv\Scripts\python scripts/build_css.py --cli data/tools/tailwindcss-v4.3.5.exe
+```
+
+macOS/Linux에서는 해당 플랫폼 실행 파일에 실행 권한을 주고 `--cli`로 경로를 지정합니다. 빌드 결과인 `web/style.css`도 함께 커밋합니다. 실행 시에는 저장소의 CSS를 그대로 제공하므로 Node.js나 CDN이 필요하지 않습니다. 화면은 FastAPI의 정적 HTML로 제공하며 별도 JavaScript 프레임워크를 사용하지 않습니다.
 
 ## 문제 해결과 한계
 

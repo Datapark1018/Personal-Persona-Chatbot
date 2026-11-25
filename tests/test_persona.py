@@ -14,7 +14,7 @@ from pydantic import ValidationError
 from server.app import create_app
 from server.config import Settings
 from server.conversation import resolve
-from server.engine import build_messages, system_prompt, validate_answer
+from server.engine import build_messages, system_prompt, validate_answer, greeting
 from server.persona import ROOT, Persona, load_persona
 from server.retrieval import KnowledgeIndex
 
@@ -37,6 +37,20 @@ def alternate():
 
 
 class PersonaTests(unittest.TestCase):
+    def test_default_persona_speaks_in_first_person(self):
+        data = alternate()
+        data.pop('response_mode')
+        owner = Persona.model_validate(data)
+        self.assertEqual(owner.response_mode, 'persona')
+        self.assertIn('김하늘입니다', greeting(owner))
+        self.assertNotIn('안내자', greeting(owner))
+        prompt = system_prompt(owner)
+        self.assertIn('Rewrite third-person source facts', prompt)
+        self.assertIn('Use 저는, 제가, 제', prompt)
+        owner = owner.model_copy(update={'response_mode':'assistant'})
+        self.assertIn('안내자', greeting(owner))
+        self.assertIn('third person as their AI portfolio guide', system_prompt(owner))
+
     def test_invalid_server_origins_are_rejected(self):
         for name in ('OLLAMA_URL', 'PUBLIC_ORIGIN'):
             for value in ('http://localhost:bad', 'http://localhost:99999',

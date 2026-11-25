@@ -13,7 +13,7 @@ async function session(signal) {
 }
 function bubble(role, text='') {
   const box = document.createElement('div'); box.className = `message ${role}`;
-  if (role !== 'user') {const label=document.createElement('span');label.className='message-label';label.textContent='✳ '+profile.name+' · AI';box.append(label);}
+  const label=document.createElement('span');label.className='message-label';label.textContent=role==='user'?'나':profile.name;box.append(label);
   const content = document.createElement('span');content.textContent=text;box.append(content);messages.append(box);
   messages.scrollTop = messages.scrollHeight;return {box,content};
 }
@@ -45,7 +45,7 @@ async function ask(question) {
         if(name==='done'){
           completed=true;reply.content.textContent=received;
           const links=document.createElement('div');links.className='source-list';
-          for(const source of data.sources){const a=sourceLink(source.url, '↗ '+source.title);if(a)links.append(a);}
+          for(const source of data.sources){const a=sourceLink(source.url, '출처: '+source.title);if(a)links.append(a);}
           reply.box.append(links);$('#status').textContent=data.status==='answer'?'답변과 출처를 확인했어요':'공개 자료에 근거해 답변합니다';
           if(data.reason_code==='model_unavailable')$('#retry').hidden=false;
         }
@@ -78,52 +78,66 @@ function element(tag, className, text) {
   if(text)node.textContent=text;
   return node;
 }
+function icon(name, style='solid') {
+  const node=element('i', 'fa-'+style+' fa-'+name);
+  node.setAttribute('aria-hidden','true');
+  return node;
+}
 function sourceLink(url, title) {
   if(typeof url !== 'string') return null;
   const internal=/^\/#doc-[a-z][a-z0-9-]{0,63}$/.test(url);
   if(!internal){try{const parsed=new URL(url);if(parsed.protocol!=='https:'||parsed.username||parsed.password)return null;}catch{return null;}}
-  const link=element('a', '', title);link.href=url;
+  const link=element('a');link.href=url;
+  link.append(icon(internal?'book-open':'arrow-up-right-from-square'),element('span','',title));
   if(!internal){link.target='_blank';link.rel='noopener noreferrer';}
   return link;
 }
 function showWelcome() {
   messages.replaceChildren();
   const welcome=element('div','welcome');
-  welcome.append(element('span','spark','✳'),element('h3','','반가워요. 무엇이 궁금하세요?'),element('p','',profile.name+'의 공개 프로필에 대해 편하게 물어보세요.'));
+  const inPersona = profile.response_mode === 'persona';
+  welcome.append(element('h3','',inPersona?'반가워요. '+profile.name+'입니다.':'무엇이 궁금한가요?'),element('p','',inPersona?'제가 만든 것들, 일하는 방식, 관심 있는 기술에 대해 편하게 물어보세요.':profile.name+'의 프로젝트와 경험에 대해 질문해 주세요.'));
   const suggestions=element('div','suggestions');
-  for(const question of profile.suggested_questions){const button=element('button','',question+' ↗');button.dataset.question=question;suggestions.append(button);}
+  for(const question of profile.suggested_questions){
+    const button=element('button');button.type='button';button.dataset.question=question;
+    const arrow=icon('arrow-right');arrow.classList.add('question-arrow');
+    button.append(icon('comment','regular'),element('span','',question),arrow);
+    suggestions.append(button);
+  }
   welcome.append(suggestions);messages.append(welcome);
 }
 function renderProfile(data) {
   profile=data;
   document.title=data.name+' · AI Portfolio';
-  $('#brand').textContent=data.english_name.split(/\s+/).map(word=>word[0]).slice(0,2).join('').toLowerCase();
-  $('#demo-label').textContent=data.fictional?'FICTIONAL PORTFOLIO · DEMO':'PERSONAL PORTFOLIO · AI';
-  $('#profile-location').textContent=data.location+' / '+data.role;
+  $('#brand').textContent=data.name;
+  const initials=(data.english_name || data.name).trim().split(/\s+/).slice(0,2).map(part=>Array.from(part)[0]).join('').toUpperCase();
+  $('#profile-initials').textContent=initials;
+  $('#chat-initials').textContent=initials;
+  $('#demo-label').textContent=data.fictional?'허구의 인물 · 예제 포트폴리오':'공개 프로필';
+  $('#profile-location').textContent=data.location;
   $('#headline').textContent=data.headline;
-  $('#bio').textContent=data.name+' · '+data.bio;
+  $('#bio').textContent=data.bio;
   $('#profile-role').textContent=data.role;
-  $('#assistant-name').textContent=data.name+' · AI';
-  $('#assistant-notice').textContent=data.response_mode==='persona'?'본인이 아닌 AI persona입니다. 공개 자료로 답해요.':'소유자 본인이 아닌 AI 안내자입니다.';
+  $('#assistant-name').textContent=data.name;
+  $('#assistant-notice').textContent=data.response_mode==='persona'?'AI persona · 공개된 경험과 프로젝트를 바탕으로 대화합니다.':'AI 안내자 · 공개 프로필을 소개합니다.';
   $('#disclosure').textContent=data.fictional?'인물·경력·프로젝트는 허구의 데모입니다. 실제 인물이나 실적을 나타내지 않습니다.':'이 챗봇은 공개 프로필을 설명하는 AI이며 소유자 본인이 아닙니다.';
   $('#footer-name').textContent=data.english_name;
   $('#intro-question').dataset.question=data.name+'을 소개해 주세요.';
   const projects=data.sections.filter(section=>section.category==='project');
-  $('#project-count').textContent=' / '+String(projects.length).padStart(2,'0');
-  for(const [i,section] of data.sections.entries()){
+  $('#project-count').textContent=projects.length+'개';
+  $('#projects').replaceChildren();
+  $('#profile-sections').replaceChildren();
+  for(const section of data.sections){
     const article=element('article','project');article.id='doc-'+section.id;
-    if(section.category==='project'){
-      const art=element('div','project-art '+['atlas-art','orbit-art','field-art'][i%3]);
-      const window=element('div','atlas-window');window.setAttribute('aria-hidden','true');
-      window.append(element('div','window-bar',section.aliases?.[0] || section.title.split(' — ')[0]),element('p','',section.summary));
-      art.append(window);article.append(art);
-    }
-    const meta=element('div','project-meta');const heading=element('div');
-    heading.append(element('span','project-type',section.category.toUpperCase()),element('h3','',section.title));
-    const button=element('button','circle','↗');button.dataset.question=section.title+'에 대해 설명해 주세요.';button.setAttribute('aria-label',section.title+' 질문');
-    meta.append(heading,button);article.append(meta,element('p','',section.summary));
+    const heading=element('h3');
+    if(section.category==='project')heading.append(icon('folder-open','regular'));
+    heading.append(element('span','',section.title));
+    article.append(heading,element('p','',section.summary));
     const tags=element('div','tags');for(const tag of section.tags.slice(0,6))tags.append(element('span','',tag));article.append(tags);
-    if(section.url){const link=sourceLink(section.url,'관련 페이지 ↗');if(link)article.append(link);}
+    const actions=element('div','project-actions');
+    const button=element('button');button.append(icon('comment','regular'),element('span','',section.category==='project'?'이 프로젝트 질문하기':'더 물어보기'));button.type='button';button.dataset.question=section.title+'에 대해 설명해 주세요.';button.setAttribute('aria-label',section.title+'에 대해 질문하기');actions.append(button);
+    if(section.url){const link=sourceLink(section.url,'관련 페이지');if(link)actions.append(link);}
+    article.append(actions);
     $(section.category==='project'?'#projects':'#profile-sections').append(article);
   }
   showWelcome();

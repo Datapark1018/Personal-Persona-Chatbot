@@ -58,7 +58,7 @@ class Persona(StrictModel):
     bio: str = Field(min_length=1, max_length=400)
     aliases: list[Alias] = Field(default_factory=list, max_length=10)
     tone: str = Field(default="차분하고 구체적으로, 간결하게", min_length=1, max_length=200)
-    response_mode: Literal["assistant", "persona"] = "assistant"
+    response_mode: Literal["assistant", "persona"] = "persona"
     suggested_questions: list[Short] = Field(min_length=1, max_length=5)
     documents: list[Document] = Field(min_length=1, max_length=50)
 
