@@ -54,7 +54,7 @@ python tests/smoke_guardrails.py
 python tests/smoke_conversation.py
 ```
 
-일반 회귀 테스트는 로컬 모델 응답만 mock하고 실제 NeMo action과 parser를 실행한다. API에서 입력·문서·출력 차단, 검사 장애, 잘못된 JSON 판정, 비공개 문서 제외, 이력 오염 방지, 원문 로그 미노출 및 연결 취소를 검증한다. 기존 기능을 포함한 회귀 테스트는 44개다.
+일반 회귀 테스트는 로컬 모델 응답만 mock하고 실제 NeMo action과 parser를 실행한다. API에서 입력·문서·출력 차단, 검사 장애, 잘못된 JSON 판정, 비공개 문서 제외, 이력 오염 방지, 원문 로그 미노출 및 연결 취소를 검증한다. 2026-11-25 기준 기존 기능을 포함한 회귀 테스트는 46개다. `python tests/smoke_http.py`로 실제 HTTP 서버와 Ollama를 함께 확인할 수 있다.
 
 `tests/fixtures/guardrail_cases.json`의 21개 사례는 2026-11-19 Windows/Python 3.13과 실제 `qwen3.5:2b-q4_K_M`에서 21/21 기대 결과를 확인했다. 정상 4턴 대화도 세 단계 검사를 포함해 통과했다. 이는 작은 로컬 회귀 집합이며 일반적인 공격 탐지율이나 안전성 인증이 아니다. 다른 모델·양자화·버전에서는 다시 실행해야 한다. 원격 CI 및 지속 부하 테스트는 실행하지 않았다.
 

@@ -28,12 +28,16 @@ class Settings:
         model = os.getenv("OLLAMA_MODEL", cls.ollama_model).strip()
         url = os.getenv("OLLAMA_URL", cls.ollama_url).rstrip("/")
         origin = os.getenv("PUBLIC_ORIGIN") or None
+        if not url:
+            raise ValueError("OLLAMA_URL must not be empty")
         for value in (url, origin):
-            if value:
+            if value is not None:
                 parsed = urlsplit(value)
+                _ = parsed.port
                 if (parsed.scheme not in {"http", "https"} or not parsed.hostname
                         or parsed.username or parsed.password or parsed.query or parsed.fragment
-                        or parsed.path not in {"", "/"}):
+                        or parsed.path not in {"", "/"} or "\\" in value
+                        or any(c.isspace() or ord(c) < 32 for c in value)):
                     raise ValueError("Server URLs must be HTTP(S) origins without credentials or paths")
         secure = os.getenv("COOKIE_SECURE", "0")
         if not model or secure not in {"0", "1"}:

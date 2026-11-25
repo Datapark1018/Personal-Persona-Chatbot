@@ -48,7 +48,8 @@ def validate_answer(raw, documents):
         if re.search(r"https?://|<[^>]+>|시스템 프롬프트|API_KEY", claim.text, re.I):
             raise ValueError("unsafe content")
         evidence = " ".join(sources[i]["text"] for i in claim.source_ids)
-        if any(number not in evidence for number in re.findall(r"\d+(?:\.\d+)?", claim.text)):
+        evidence_numbers = set(re.findall(r"\d+(?:\.\d+)?", evidence))
+        if any(number not in evidence_numbers for number in re.findall(r"\d+(?:\.\d+)?", claim.text)):
             raise ValueError("unsupported number")
     text = "\n\n".join(c.text for c in answer.claims)
     if len(text) > 1000:

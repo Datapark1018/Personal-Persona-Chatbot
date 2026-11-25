@@ -94,6 +94,16 @@ class ChatTests(unittest.TestCase):
         with self.assertRaises(ValueError):
             validate_answer(raw, DOCUMENTS)
 
+    def test_number_must_match_a_complete_evidence_number(self):
+        docs = [{'id':'sample', 'visibility':'public', 'title':'Sample', 'url':None,
+                 'text':'2025년에 시작했고 응답 시간은 12.5초입니다.'}]
+        for number in ('25', '202', '12', '5', '2.5'):
+            raw = json.dumps({'status':'answer','claims':[{'text':number, 'source_ids':['sample']}]})
+            with self.subTest(number=number), self.assertRaises(ValueError):
+                validate_answer(raw, docs)
+        raw = json.dumps({'status':'answer','claims':[{'text':'2025년, 12.5초', 'source_ids':['sample']}]})
+        self.assertIn('2025', validate_answer(raw, docs)[0])
+
 
 if __name__ == '__main__':
     unittest.main()

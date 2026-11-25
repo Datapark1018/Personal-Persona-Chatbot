@@ -37,6 +37,15 @@ def alternate():
 
 
 class PersonaTests(unittest.TestCase):
+    def test_invalid_server_origins_are_rejected(self):
+        for name in ('OLLAMA_URL', 'PUBLIC_ORIGIN'):
+            for value in ('http://localhost:bad', 'http://localhost:99999',
+                          'http://local host', 'http://localhost\\evil', 'http://localhost\n'):
+                with self.subTest(name=name, value=value), patch.dict(os.environ, {name:value}), self.assertRaises(ValueError):
+                    Settings.from_env()
+        with patch.dict(os.environ, {'OLLAMA_URL':''}), self.assertRaises(ValueError):
+            Settings.from_env()
+
     def setUp(self):
         guard = patch('server.guardrails.OllamaGuardModel.generate_async', new=AsyncMock(return_value=LLMResponse(content='{"blocked":false}')))
         guard.start()
